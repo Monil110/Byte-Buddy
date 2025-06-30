@@ -1,6 +1,30 @@
-# RVSmartBot 🤖
+# Byte Buddy 🤖
 
-RVSmartBot is an AI-powered assistant designed to help students of RVCE (Rashtreeya Vidyalaya College of Engineering) with college-related queries. It leverages advanced language models and vector search to answer questions about academics, campus resources, events, and more.
+Byte Buddy is an AI-powered assistant designed to help students of RVCE (Rashtreeya Vidyalaya College of Engineering) with college-related queries. It leverages advanced language models and vector search to answer questions about academics, campus resources, events, and more.
+
+## Technical Overview
+
+**Byte Buddy** is built using a Retrieval-Augmented Generation (RAG) architecture, combining document retrieval with generative AI for accurate, context-aware answers. Here's how it works:
+
+- **PDF Ingestion:** All PDF files in the specified knowledge base directory are loaded and parsed using `PyMuPDFLoader` from LangChain.
+- **Text Chunking:** Documents are split into overlapping chunks (default: 2000 characters, 200 overlap) using `RecursiveCharacterTextSplitter` to preserve context across sections.
+- **Embeddings:** Each chunk is converted into a vector embedding using Google Generative AI Embeddings (`GoogleGenerativeAIEmbeddings`).
+- **Vector Store:** Embeddings and their corresponding text chunks are stored in a FAISS vector index for efficient similarity search.
+- **Retrieval:** When a user asks a question, the app retrieves the top-k most relevant chunks (default: 15) from the vector store.
+- **Prompting:** The retrieved context and the user's question are combined in a prompt template, which is sent to a Google Gemini model (`ChatGoogleGenerativeAI`) for answer generation.
+- **UI:** The app is built with Streamlit, providing a modern, interactive web interface. Folium is used for map visualization when campus directions are requested.
+
+**Key Libraries Used:**
+- Streamlit (UI)
+- LangChain (RAG pipeline, document loaders, text splitters)
+- FAISS (vector similarity search)
+- Google Generative AI (embeddings and chat model)
+- PyMuPDF (PDF parsing)
+- Folium & streamlit-folium (map rendering)
+- python-dotenv (environment variable management)
+
+**Scalability:**
+- Byte Buddy can handle dozens of PDFs efficiently on a typical laptop. For very large document sets, consider increasing system RAM or preprocessing the index offline.
 
 ## Features
 
@@ -17,7 +41,7 @@ RVSmartBot is an AI-powered assistant designed to help students of RVCE (Rashtre
 Navigate to your project directory:
 
 ```sh
-cd "C:\Users\MONIL\Desktop\new aiml lab"
+cd "C:\Users\MONIL\Desktop\Byte-Buddy"
 ```
 
 ### 2. Install Dependencies
@@ -61,7 +85,7 @@ streamlit run app4.py
 ## Troubleshooting
 
 - **No API Key:** Make sure your `.env` file is present and contains a valid Google API key.
-- **No PDFs Found:** Ensure your PDF files are in the correct directory (`C:/Users/MONIL/Desktop/aiml lab see`).
+- **No PDFs Found:** Ensure your PDF files are in the correct directory (`C:/Users/MONIL/Desktop/Byte-Buddy`).
 - **Missing Packages:** Install any missing Python packages as shown above.
 
 ## Customization
